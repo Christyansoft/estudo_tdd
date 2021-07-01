@@ -7,14 +7,15 @@ import 'package:estudo_tdd/features/estados/data/datasources/iestados_datasource
 import 'package:estudo_tdd/features/estados/data/models/estado_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-
-import '../../../../fixtures/estados_mock.dart';
+import '../../../../fixtures/fixture_reader.dart';
 
 class HttpClientMock extends Mock implements HttpClient {}
 
 void main() {
   late IEstadosDatasource datasource;
   late HttpClient client;
+
+  String estadosJson = readJson('estados.json');
 
   setUp(() {
     client = HttpClientMock();
@@ -23,14 +24,14 @@ void main() {
 
   void successAnswer() {
     when(() => client.get(any())).thenAnswer((_) async =>
-        HttpResponse(data: json.decode(estadosMock), statusCode: 200));
+        HttpResponse(data: json.decode(estadosJson), statusCode: 200));
   }
 
   final urlExpected =
       'https://servicodados.ibge.gov.br/api/v1/localidades/estados';
 
   final tEstados =
-      (json.decode(estadosMock)).map((e) => EstadoModel.fromJson(e)).toList();
+      (json.decode(estadosJson)).map((e) => EstadoModel.fromJson(e)).toList();
 
   test('verify if correct url is called', () async {
     //Arrange
