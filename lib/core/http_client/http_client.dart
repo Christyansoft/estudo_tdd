@@ -4,10 +4,10 @@ abstract class HttpClient {
 
 class HttpResponse {
   final dynamic data;
-  final int statusCode;
+  final int? statusCode;
 
   HttpResponse({
     required this.data,
-    required this.statusCode,
+    this.statusCode,
   });
 }
